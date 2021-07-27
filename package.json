@@ -20,7 +20,8 @@
   "homepage": "https://github.com/kseniya7991/movies-explorer-api#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.13.3"
+    "mongoose": "^5.13.3",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
