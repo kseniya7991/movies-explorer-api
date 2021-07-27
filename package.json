@@ -1,0 +1,27 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "Web API for registration and authorization on site of films for the Yandex Praktirum diploma project.",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kseniya7991/movies-explorer-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kseniya7991/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/kseniya7991/movies-explorer-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
