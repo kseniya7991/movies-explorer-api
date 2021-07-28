@@ -2,8 +2,7 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 
-//Сюда вписать контроллеры  файнд и шоу
-
+const { getCurrentUser, updateUser } = require('../controllers/user')
 
 // Информация о текущем пользователе
 router.get('/me', getCurrentUser);

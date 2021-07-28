@@ -13,7 +13,7 @@ module.exports.getSavedMovies = (req, res, next) => {
   async function getSavedMovies() {
     try {
       const movies = Movie.find({});
-      return res.send(movies)
+      return res.send({ movies })
     } catch (err) {
       return next(new InternalServerError('На сервере проихошла ошибка'))
     }
@@ -31,10 +31,11 @@ module.exports.createMovie = (req, res, next) => {
         description,
         image,
         trailer,
+        thumbnail,
+        movieId,
         nameRU,
         nameEN,
-        thumbnail,
-        movieId } = req.body;
+         } = req.body;
       const movie = await Movie.create({
         country,
         director,

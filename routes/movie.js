@@ -2,8 +2,17 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 
+const BadRequest = require('../errors/bad-req-err');
 
-//Сюда испортировать контроллеры
+const { getSavedMovies, createMovie, deleteMovie } = require('../controllers/movie')
+
+const method = (value) => {
+  const correctLink = validator.isURL(value, { require_protocol: true });
+  if (!correctLink) {
+    return new BadRequest('Введена некорректная ссылка');
+  }
+  return value;
+};
 
 //Получить все сохраненные фильмы
 router.get('/', getSavedMovies)
@@ -30,6 +39,6 @@ router.delete('/:movieId', celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().hex().length(24),
   })
-}))
+}), deleteMovie)
 
 module.exports = router;

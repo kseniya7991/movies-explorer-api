@@ -26,28 +26,31 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validatior (v) {
+      validator(v) {
         return validator.isUrl(v);
-      }
-    }
+      },
+      message: 'Введите корректную ссылку',
+    },
   },
   trailer: {
     type: String,
     required: true,
     validate: {
-      validatior (v) {
+      validator(v) {
         return validator.isUrl(v);
-      }
-    }
-  },
+      },
+      message: 'Введите корректную ссылку',
+    },
+   },
   thumbnail: {
     type: String,
     required: true,
     validate: {
-      validatior (v) {
+      validator(v) {
         return validator.isUrl(v);
-      }
-    }
+      },
+      message: 'Введите корректную ссылку',
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
