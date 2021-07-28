@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/kseniya7991/movies-explorer-api#readme",
   "dependencies": {
+    "celebrate": "^15.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.13.3",
     "validator": "^13.6.0"
