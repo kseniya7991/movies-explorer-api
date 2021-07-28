@@ -3,6 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+//Импорт ошибок
+const BadRequest = require('../errors/bad-req-err');
+const NotFound = require('../errors/not-found-err');
+const InternalServerError = require('../errors/internal-server-err');
+
 module.exports.getCurrentUser = (req, res, next) => {
   async function getCurrentUser() {
     try {
@@ -10,12 +15,12 @@ module.exports.getCurrentUser = (req, res, next) => {
       if (user) {
         return res.send({ user });
       }
-      return next()
+      return next(new NotFound('Пользователь не найден'))
     } catch (err) {
       if (err.name === 'CastError') {
-        return next();
+        return next(new NotFound('Пользователь не найден'));
       }
-      return next()
+      return next(new InternalServerError('На сервере проихошла ошибка'))
     }
   }
   getCurrentUser();
@@ -34,14 +39,14 @@ module.exports.updateUser = (req, res, next) => {
       if (user) {
         return res.send({ user });
       }
-      return next();
+      return next(new NotFound('Пользователь не найден'));
     } catch (err) {
       if (err.name === 'ValidationError') {
-        return next();
+        return next(new BadRequest('Введены некорректные данные пользователя'));
       } if (err.name === 'CastError') {
-        return next()
+        return next(new NotFound('Пользователь не найден'))
       }
-      return next()
+      return next(new InternalServerError('На сервере проихошла ошибка'))
     }
   }
   updateUser();
