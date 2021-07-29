@@ -7,11 +7,13 @@ function handleErrors(err, req, res) {
     res.status(400).send({ message: 'Введены некорректные данные' });
   }
 
-  res.status(statusCode).send({
-    message: statusCode === 500
-      ? 'На сервере произошла ошибка'
-      : message,
-  });
+  res.status(statusCode).send({ message });
 }
 
 module.exports = handleErrors;
+
+/* res.status(statusCode).send({
+  message: statusCode === 500
+    ? 'На сервере произошла ошибка'
+    : message,
+}); */

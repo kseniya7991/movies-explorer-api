@@ -15,7 +15,8 @@ module.exports.getSavedMovies = (req, res, next) => {
       const movies = Movie.find({});
       return res.send({ movies })
     } catch (err) {
-      return next(new InternalServerError('На сервере проихошла ошибка'))
+      res.send(err)
+     /*  return next(new InternalServerError('На сервере произошла ошибка 1')) */
     }
   }
   getSavedMovies();
@@ -24,6 +25,7 @@ module.exports.getSavedMovies = (req, res, next) => {
 module.exports.createMovie = (req, res, next) => {
   async function createMovie() {
     try {
+      const userId = req.user._id;
       const {country,
         director,
         duration,
@@ -47,13 +49,15 @@ module.exports.createMovie = (req, res, next) => {
         nameRU,
         nameEN,
         thumbnail,
+        owner: userId,
         movieId});
       return res.status(201).send({ movie })
     } catch (err) {
+      console.log(err)
       if (err.name === 'ValidationError') {
         return next(new BadRequest('Введены некорректные данные фильма'))
       }
-      return next(new InternalServerError('На сервере проихошла ошибка'))
+      return next(new InternalServerError('На сервере проихошла ошибка 2'))
     }
   }
   createMovie();
@@ -71,7 +75,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new NotFound('Фильм не найден'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка'));
+      return next(new InternalServerError('На сервере проихошла ошибка 3'));
     }
   }
   deleteMovie();

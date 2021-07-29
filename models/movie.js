@@ -27,7 +27,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return validator.isUrl(v);
+        return /^https:\/\/[a-z0-9]*\.?[a-z0-9]*\.?[a-z0-9-]*\.?[a-z]*\/?[a-zA-Z0-9-._~:?#[\]/@!$&'()*+,;=-]*#?\s?$/.test(v);;
       },
       message: 'Введите корректную ссылку',
     },
@@ -37,7 +37,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return validator.isUrl(v);
+        return /^https:\/\/[a-z0-9]*\.?[a-z0-9]*\.?[a-z0-9-]*\.?[a-z]*\/?[a-zA-Z0-9-._~:?#[\]/@!$&'()*+,;=-]*#?\s?$/.test(v);;
       },
       message: 'Введите корректную ссылку',
     },
@@ -47,7 +47,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return validator.isUrl(v);
+        return /^https:\/\/[a-z0-9]*\.?[a-z0-9]*\.?[a-z0-9-]*\.?[a-z]*\/?[a-zA-Z0-9-._~:?#[\]/@!$&'()*+,;=-]*#?\s?$/.test(v);;
       },
       message: 'Введите корректную ссылку',
     },
@@ -72,3 +72,10 @@ const movieSchema = new mongoose.Schema({
 })
 
 module.exports = mongoose.model('movie', movieSchema);
+
+
+/* owner: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'user',
+  required: true
+}, */
