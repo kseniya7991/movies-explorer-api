@@ -12,11 +12,10 @@ const InternalServerError = require('../errors/internal-server-err');
 module.exports.getSavedMovies = (req, res, next) => {
   async function getSavedMovies() {
     try {
-      const movies = Movie.find({});
+      const movies = await Movie.find({});
       return res.send({ movies })
     } catch (err) {
-      res.send(err)
-     /*  return next(new InternalServerError('На сервере произошла ошибка 1')) */
+      return next(new InternalServerError('На сервере произошла ошибка 1'))
     }
   }
   getSavedMovies();

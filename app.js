@@ -12,12 +12,22 @@ const NotFoundError = require('./errors/not-found-err')
 
 const userRoutes = require('./routes/user');
 const movieRoutes = require('./routes/movie');
+const { createUser } = require('./controllers/user');
 
 const app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser('secret'));
+
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  })
+}), createUser)
+
 
 app.use('/users', userRoutes);
 app.use('/movies', movieRoutes)

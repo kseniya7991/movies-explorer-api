@@ -7,6 +7,7 @@ const User = require('../models/user');
 const BadRequest = require('../errors/bad-req-err');
 const NotFound = require('../errors/not-found-err');
 const InternalServerError = require('../errors/internal-server-err');
+const ConflictError = require('../errors/conflict-err');
 
 module.exports.getCurrentUser = (req, res, next) => {
   async function getCurrentUser() {
@@ -50,4 +51,30 @@ module.exports.updateUser = (req, res, next) => {
     }
   }
   updateUser();
+}
+
+module.exports.createUser = (req, res, next) => {
+  async function createUser() {
+    try{
+      const { name, email, password } = req.body;
+      if(password) {
+        const hash = await bcrypt.hash(password, 10);
+        const user = await User.create({
+          name, email, password: hash
+        });
+        return res.status(201).send({ user
+        })
+      }
+      return next(new BadRequest('Введены некорректные данные пользователя'));
+    } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return next(new ConflictError('Пользователь с таким email уже существует'));
+      }
+      if (err.name === 'ValidationError') {
+        return next(new BadRequest('Введены некорректные данные пользователя'))
+      }
+      return next(new InternalServerError('На сервере проихошла ошибка 6'))
+    }
+  }
+  createUser();
 }
