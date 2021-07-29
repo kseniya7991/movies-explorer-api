@@ -70,6 +70,7 @@ module.exports.createUser = (req, res, next) => {
           }
         });
       }
+
       return next(new BadRequest('Введены некорректные данные пользователя'));
     } catch (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
