@@ -8,6 +8,7 @@ const BadRequest = require('../errors/bad-req-err');
 const NotFound = require('../errors/not-found-err');
 const InternalServerError = require('../errors/internal-server-err');
 const ConflictError = require('../errors/conflict-err');
+const UnauthorizedError = require('../errors/unauthorized-err');
 
 module.exports.getCurrentUser = (req, res, next) => {
   async function getCurrentUser() {
@@ -83,4 +84,27 @@ module.exports.createUser = (req, res, next) => {
     }
   }
   createUser();
+}
+
+module.exports.login = (req, res, next) => {
+  async function login() {
+    try {
+      const { email, password } = req.body;
+      const user = await User.findUserByCredentials(email, password);
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d'},
+      );
+      return res
+        .cookie('token', token, {
+          maxAge: 3600000 * 24 * 7,
+          hhtpOnly: true,
+        })
+        .send({ token });
+    } catch (err) {
+      return next(new UnauthorizedError(err.message));
+    }
+  }
+  login();
 }
