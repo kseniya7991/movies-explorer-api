@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-//Импорт ошибок
+// Импорт ошибок
 const BadRequest = require('../errors/bad-req-err');
 const NotFound = require('../errors/not-found-err');
 const InternalServerError = require('../errors/internal-server-err');
@@ -17,20 +17,20 @@ module.exports.getCurrentUser = (req, res, next) => {
       if (user) {
         return res.send({ user });
       }
-      return next(new NotFound('Пользователь не найден'))
+      return next(new NotFound('Пользователь не найден'));
     } catch (err) {
       if (err.name === 'CastError') {
         return next(new NotFound('Пользователь не найден'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка 4'))
+      return next(new InternalServerError('На сервере проихошла ошибка'));
     }
   }
   getCurrentUser();
-}
+};
 
 module.exports.updateUser = (req, res, next) => {
   async function updateUser() {
-    try{
+    try {
       const userId = req.user._id;
       const { name, email } = req.body;
       const user = await User.findByIdAndUpdate(userId, { name, email },
@@ -46,29 +46,29 @@ module.exports.updateUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequest('Введены некорректные данные пользователя'));
       } if (err.name === 'CastError') {
-        return next(new NotFound('Пользователь не найден'))
+        return next(new NotFound('Пользователь не найден'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка 5'))
+      return next(new InternalServerError('На сервере проихошла ошибка'));
     }
   }
   updateUser();
-}
+};
 
 module.exports.createUser = (req, res, next) => {
   async function createUser() {
-    try{
+    try {
       const { name, email, password } = req.body;
       if (password) {
         const hash = await bcrypt.hash(password, 10);
         const user = await User.create({
-          name, email, password: hash
+          name, email, password: hash,
         });
         return res.status(201).send({
           user: {
             name: user.name,
             email: user.email,
-            _id: user._id
-          }
+            _id: user._id,
+          },
         });
       }
 
@@ -78,13 +78,13 @@ module.exports.createUser = (req, res, next) => {
         return next(new ConflictError('Пользователь с таким email уже существует'));
       }
       if (err.name === 'ValidationError') {
-        return next(new BadRequest('Введены некорректные данные пользователя'))
+        return next(new BadRequest('Введены некорректные данные пользователя'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка 6'))
+      return next(new InternalServerError('На сервере проихошла ошибка'));
     }
   }
   createUser();
-}
+};
 
 module.exports.login = (req, res, next) => {
   async function login() {
@@ -94,7 +94,7 @@ module.exports.login = (req, res, next) => {
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-        { expiresIn: '7d'},
+        { expiresIn: '7d' },
       );
       return res.send({ token });
     } catch (err) {
@@ -102,4 +102,4 @@ module.exports.login = (req, res, next) => {
     }
   }
   login();
-}
+};

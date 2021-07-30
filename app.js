@@ -1,16 +1,15 @@
-require('dotenv').config()
+require('dotenv').config();
 
 const express = require('express');
-const handleErrors = require('./handle-errors');
 
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const { celebrate, Joi, isCelebrateError } = require('celebrate');
-const validator = require('validator');
+const { celebrate, Joi } = require('celebrate');
+const handleErrors = require('./handle-errors');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const NotFoundError = require('./errors/not-found-err')
+const NotFoundError = require('./errors/not-found-err');
 
 const userRoutes = require('./routes/user');
 const movieRoutes = require('./routes/movie');
@@ -29,19 +28,18 @@ app.post('/signup', celebrate({
     name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
-  })
-}), createUser)
+  }),
+}), createUser);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
-  })
-}), login)
-
+  }),
+}), login);
 
 app.use('/users', userRoutes);
-app.use('/movies', movieRoutes)
+app.use('/movies', movieRoutes);
 
 app.use('/*', (req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден 1'));
