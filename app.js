@@ -12,7 +12,7 @@ const NotFoundError = require('./errors/not-found-err')
 
 const userRoutes = require('./routes/user');
 const movieRoutes = require('./routes/movie');
-const { createUser } = require('./controllers/user');
+const { createUser, login } = require('./controllers/user');
 
 const app = express();
 
@@ -27,6 +27,13 @@ app.post('/signup', celebrate({
     password: Joi.string().required(),
   })
 }), createUser)
+
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  })
+}), login)
 
 
 app.use('/users', userRoutes);
