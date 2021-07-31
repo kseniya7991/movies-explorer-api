@@ -4,6 +4,7 @@ const Movie = require('../models/movie');
 const BadRequest = require('../errors/bad-req-err');
 const NotFound = require('../errors/not-found-err');
 const InternalServerError = require('../errors/internal-server-err');
+const ForbiddenError = require('../errors/forbidden-err');
 
 module.exports.getSavedMovies = (req, res, next) => {
   async function getSavedMovies() {
@@ -62,11 +63,19 @@ module.exports.createMovie = (req, res, next) => {
 module.exports.deleteMovie = (req, res, next) => {
   async function deleteMovie() {
     try {
-      const deletedMovie = await Movie.findOneAndRemove({ movieId: req.params.movieId });
-      if (deletedMovie) {
-        return res.send({ deletedMovie });
+      const deletedMovie = await Movie.findOne({ movieId: req.params.movieId });
+      if (deletedMovie && req.user._id === deletedMovie.owner.toString()) {
+        try {
+          const movie = await Movie.findOneAndRemove({ movieId: req.params.movieId });
+          return res.send({ movie });
+        } catch {
+          return next(new InternalServerError('На сервере произошла ошибка'));
+        }
+      } else if (!deletedCard) {
+        return next(new NotFound('Фильм не найден'));
+      } else {
+        return next(new ForbiddenError('Нельзя удалить фильм другого пользователя'));
       }
-      return next(new NotFound('Фильм не найден'));
     } catch (err) {
       if (err.name === 'CastError') {
         return next(new NotFound('Фильм не найден'));
