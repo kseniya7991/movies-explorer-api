@@ -30,14 +30,14 @@ router.post('/', celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().custom(method, 'Validation Link'),
-    movieId: Joi.string().required(),
+    movieId: Joi.string().required().length(24),
   }),
 }), createMovie);
 
 // Удалить сохраненный фильм по ID
 router.delete('/:movieId', celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().required(),
+    movieId: Joi.string().required().length(24),
   }),
 }), deleteMovie);
 
