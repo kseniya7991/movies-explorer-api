@@ -6,9 +6,7 @@ const { PORT = 3000 } = process.env;
 // подключение к серверу Mongo
 async function start() {
   try {
-    app.listen(PORT, () => {
-      console.log(`App listening on port ${PORT}`);
-    });
+    app.listen(PORT, () => `Server is running on port ${PORT}`);
     await mongoose.connect('mongodb://localhost:27017/moviesdb', {
       useNewUrlParser: true,
       useCreateIndex: true,

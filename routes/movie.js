@@ -4,7 +4,7 @@ const validator = require('validator');
 
 const BadRequest = require('../errors/bad-req-err');
 
-const { getSavedMovies, createMovie, deleteMovie } = require('../controllers/movie')
+const { getSavedMovies, createMovie, deleteMovie } = require('../controllers/movie');
 
 const method = (value) => {
   const correctLink = validator.isURL(value, { require_protocol: true });
@@ -14,10 +14,10 @@ const method = (value) => {
   return value;
 };
 
-//Получить все сохраненные фильмы
-router.get('/', getSavedMovies)
+// Получить все сохраненные фильмы
+router.get('/', getSavedMovies);
 
-//Создать новый фильм
+// Создать новый фильм
 router.post('/', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
@@ -30,15 +30,15 @@ router.post('/', celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().custom(method, 'Validation Link'),
-    movieId: Joi.string().hex().length(24),
-  })
-}), createMovie)
+    movieId: Joi.string().required(),
+  }),
+}), createMovie);
 
-//Удалить сохраненный фильм по ID
+// Удалить сохраненный фильм по ID
 router.delete('/:movieId', celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().hex().length(24),
-  })
-}), deleteMovie)
+    movieId: Joi.string().required(),
+  }),
+}), deleteMovie);
 
 module.exports = router;

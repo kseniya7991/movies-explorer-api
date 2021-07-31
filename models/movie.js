@@ -71,9 +71,3 @@ const movieSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('movie', movieSchema);
-
-/* owner: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'user',
-  required: true
-}, */

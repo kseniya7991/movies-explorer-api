@@ -53,7 +53,7 @@ module.exports.createMovie = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequest('Введены некорректные данные фильма'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка'));
+      return next(new InternalServerError('На сервере произошла ошибка'));
     }
   }
   createMovie();
@@ -62,7 +62,7 @@ module.exports.createMovie = (req, res, next) => {
 module.exports.deleteMovie = (req, res, next) => {
   async function deleteMovie() {
     try {
-      const deletedMovie = await Movie.findByIdAndDelete(req.params.movieId);
+      const deletedMovie = await Movie.findOneAndRemove({ movieId: req.params.movieId });
       if (deletedMovie) {
         return res.send({ deletedMovie });
       }
@@ -71,7 +71,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new NotFound('Фильм не найден'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка'));
+      return next(new InternalServerError('На сервере произошла ошибка'));
     }
   }
   deleteMovie();

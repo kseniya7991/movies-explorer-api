@@ -22,7 +22,7 @@ module.exports.getCurrentUser = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new NotFound('Пользователь не найден'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка'));
+      return next(new InternalServerError('На сервере произошла ошибка'));
     }
   }
   getCurrentUser();
@@ -48,7 +48,7 @@ module.exports.updateUser = (req, res, next) => {
       } if (err.name === 'CastError') {
         return next(new NotFound('Пользователь не найден'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка'));
+      return next(new InternalServerError('На сервере произошла ошибка'));
     }
   }
   updateUser();
@@ -80,7 +80,7 @@ module.exports.createUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequest('Введены некорректные данные пользователя'));
       }
-      return next(new InternalServerError('На сервере проихошла ошибка'));
+      return next(new InternalServerError('На сервере произошла ошибка'));
     }
   }
   createUser();
