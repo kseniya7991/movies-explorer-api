@@ -71,7 +71,7 @@ module.exports.deleteMovie = (req, res, next) => {
         } catch {
           return next(new InternalServerError('На сервере произошла ошибка'));
         }
-      } else if (!deletedCard) {
+      } else if (!deletedMovie) {
         return next(new NotFound('Фильм не найден'));
       } else {
         return next(new ForbiddenError('Нельзя удалить фильм другого пользователя'));
