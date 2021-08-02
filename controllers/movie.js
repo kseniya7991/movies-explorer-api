@@ -3,7 +3,6 @@ const Movie = require('../models/movie');
 // Импорт ошибок
 const BadRequest = require('../errors/bad-req-err');
 const NotFound = require('../errors/not-found-err');
-const InternalServerError = require('../errors/internal-server-err');
 const ForbiddenError = require('../errors/forbidden-err');
 
 module.exports.getSavedMovies = async (req, res, next) => {
@@ -11,7 +10,7 @@ module.exports.getSavedMovies = async (req, res, next) => {
     const movies = await Movie.find({});
     return res.send({ movies });
   } catch (err) {
-    return next(new InternalServerError('На сервере произошла ошибка'));
+    return next(new Error());
   }
 };
 
@@ -50,7 +49,7 @@ module.exports.createMovie = async (req, res, next) => {
     if (err.name === 'ValidationError') {
       return next(new BadRequest('Введены некорректные данные фильма'));
     }
-    return next(new InternalServerError('На сервере произошла ошибка'));
+    return next(new Error());
   }
 };
 
@@ -62,7 +61,7 @@ module.exports.deleteMovie = async (req, res, next) => {
         const movie = await Movie.findByIdAndRemove(req.params.movieId);
         return res.send({ movie });
       } catch {
-        return next(new InternalServerError('На сервере произошла ошибка'));
+        return next(new Error());
       }
     } else if (!deletedMovie) {
       return next(new NotFound('Фильм не найден'));
@@ -73,6 +72,6 @@ module.exports.deleteMovie = async (req, res, next) => {
     if (err.name === 'CastError') {
       return next(new NotFound('Фильм не найден'));
     }
-    return next(new InternalServerError('На сервере произошла ошибка'));
+    return next(new Error());
   }
 };

@@ -6,7 +6,6 @@ const User = require('../models/user');
 // Импорт ошибок
 const BadRequest = require('../errors/bad-req-err');
 const NotFound = require('../errors/not-found-err');
-const InternalServerError = require('../errors/internal-server-err');
 const ConflictError = require('../errors/conflict-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
 
@@ -21,7 +20,7 @@ module.exports.getCurrentUser = async (req, res, next) => {
     if (err.name === 'CastError') {
       return next(new NotFound('Пользователь не найден'));
     }
-    return next(new InternalServerError('На сервере произошла ошибка'));
+    return next(new Error());
   }
 };
 
@@ -47,7 +46,7 @@ module.exports.updateUser = async (req, res, next) => {
     } if (err.name === 'CastError') {
       return next(new NotFound('Пользователь не найден'));
     }
-    return next(new InternalServerError('На сервере произошла ошибка'));
+    return next(new Error());
   }
 };
 
@@ -76,7 +75,7 @@ module.exports.createUser = async (req, res, next) => {
     if (err.name === 'ValidationError') {
       return next(new BadRequest('Введены некорректные данные пользователя'));
     }
-    return next(new InternalServerError('На сервере произошла ошибка'));
+    return next(new Error());
   }
 };
 
