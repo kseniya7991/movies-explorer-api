@@ -43,6 +43,9 @@ module.exports.updateUser = (req, res, next) => {
       }
       return next(new NotFound('Пользователь не найден'));
     } catch (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return next(new ConflictError('Пользователь с таким email уже существует'));
+      }
       if (err.name === 'ValidationError') {
         return next(new BadRequest('Введены некорректные данные пользователя'));
       } if (err.name === 'CastError') {
