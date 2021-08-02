@@ -15,9 +15,9 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-err');
 
 const auth = require('./middlewares/auth');
-const userRoutes = require('./routes/user');
-const movieRoutes = require('./routes/movie');
+
 const { createUser, login } = require('./controllers/user');
+const api = require('./routes');
 
 const app = express();
 app.use(helmet());
@@ -78,11 +78,9 @@ app.post('/signin', celebrate({
   }),
 }), login);
 
-// авторизация
 app.use(auth);
 
-app.use('/users', userRoutes);
-app.use('/movies', movieRoutes);
+app.use('/api', api);
 
 app.use('/*', (req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден'));
