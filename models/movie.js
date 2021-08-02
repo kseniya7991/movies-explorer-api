@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -26,7 +27,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^https:\/\/[a-z0-9]*\.?[a-z0-9]*\.?[a-z0-9-]*\.?[a-z]*\/?[a-zA-Z0-9-._~:?#[\]/@!$&'()*+,;=-]*#?\s?$/.test(v);
+        return validator.isURL(v);
       },
       message: 'Введите корректную ссылку',
     },
@@ -36,7 +37,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^https:\/\/[a-z0-9]*\.?[a-z0-9]*\.?[a-z0-9-]*\.?[a-z]*\/?[a-zA-Z0-9-._~:?#[\]/@!$&'()*+,;=-]*#?\s?$/.test(v);
+        return validator.isURL(v);
       },
       message: 'Введите корректную ссылку',
     },
@@ -46,7 +47,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^https:\/\/[a-z0-9]*\.?[a-z0-9]*\.?[a-z0-9-]*\.?[a-z]*\/?[a-zA-Z0-9-._~:?#[\]/@!$&'()*+,;=-]*#?\s?$/.test(v);
+        return validator.isURL(v);
       },
       message: 'Введите корректную ссылку',
     },
