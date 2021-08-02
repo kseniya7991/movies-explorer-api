@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 
 const express = require('express');
@@ -9,6 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { celebrate, Joi } = require('celebrate');
 const handleErrors = require('./handle-errors');
+const limiter = require('./libraries/rate-limiter');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -21,12 +21,6 @@ const api = require('./routes');
 
 const app = express();
 app.use(helmet());
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 2000, // limit each IP to 200 requests per windowMs
-  message: 'Too many accounts created from this IP, please try again after an hour',
-});
 
 app.set('trust proxy', 1);
 
