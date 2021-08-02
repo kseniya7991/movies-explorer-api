@@ -1,25 +1,42 @@
 require('dotenv').config();
 
 const helmet = require('helmet');
-
 const express = require('express');
-
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { celebrate, Joi } = require('celebrate');
-const handleErrors = require('./handle-errors');
 const limiter = require('./libraries/rate-limiter');
 
+const handleErrors = require('./handle-errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-
 const NotFoundError = require('./errors/not-found-err');
 
 const auth = require('./middlewares/auth');
-
 const { createUser, login } = require('./controllers/user');
+
 const api = require('./routes');
 
+const { DB, NODE_ENV } = process.env;
+const { PORT = 3000 } = process.env;
+
 const app = express();
+
+async function start() {
+  try {
+    app.listen(PORT, () => `Server is running on port ${PORT}`);
+    await mongoose.connect(NODE_ENV === 'production' ? DB : 'mongodb://localhost:27017/moviesdb', {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
+    });
+  } catch (error) {
+    return `Init application error: status 500 ${error}`;
+  }
+  return null;
+}
+
 app.use(helmet());
 
 app.set('trust proxy', 1);
@@ -86,4 +103,5 @@ app.use((err, req, res, next) => {
   handleErrors(err, req, res);
 });
 
+start();
 module.exports = app;

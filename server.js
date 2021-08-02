@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+/* const mongoose = require('mongoose');
 const app = require('./app');
 
 const { DB, NODE_ENV } = process.env;
@@ -16,10 +16,10 @@ async function start() {
       useUnifiedTopology: true,
     });
   } catch (error) {
-    // поменять на статус ошибки
     return `Init application error: status 500 ${error}`;
   }
   return null;
 }
 
 start();
+ */

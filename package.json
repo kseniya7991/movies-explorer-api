@@ -5,8 +5,8 @@
   "main": ".eslintrc.js",
   "scripts": {
     "lint": "npx eslint .",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
