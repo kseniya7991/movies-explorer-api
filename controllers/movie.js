@@ -63,10 +63,10 @@ module.exports.createMovie = (req, res, next) => {
 module.exports.deleteMovie = (req, res, next) => {
   async function deleteMovie() {
     try {
-      const deletedMovie = await Movie.findOne({ movieId: req.params.movieId });
+      const deletedMovie = await Movie.findById(req.params.movieId);
       if (deletedMovie && req.user._id === deletedMovie.owner.toString()) {
         try {
-          const movie = await Movie.findOneAndRemove({ movieId: req.params.movieId });
+          const movie = await Movie.findByIdAndRemove(req.params.movieId);
           return res.send({ movie });
         } catch {
           return next(new InternalServerError('На сервере произошла ошибка'));
