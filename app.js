@@ -47,13 +47,14 @@ app.use(limiter);
   'http://movies.kst.nomoredomains.monster/',
   'https://movies.kst.nomoredomains.monster/',
   'http://localhost:3000/',
-];
+]; */
 
 app.use((req, res, next) => {
-  const { origin } = req.headers;
-  if (allowedCors.includes(origin)) {
+  /*  const { origin } = req.headers; */
+  res.header('Access-Contol-Allow-Origin', '*');
+  /*   if (allowedCors.includes(origin)) {
     res.header('Access-Contol-Allow-Origin', origin);
-  }
+  } */
 
   const { method } = req;
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
@@ -67,7 +68,7 @@ app.use((req, res, next) => {
   }
 
   next();
-}); */
+});
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
