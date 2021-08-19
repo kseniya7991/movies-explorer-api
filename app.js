@@ -5,15 +5,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const { celebrate, Joi } = require('celebrate');
+/* const { celebrate, Joi } = require('celebrate'); */
 const limiter = require('./libraries/rate-limiter');
 
 const handleErrors = require('./handle-errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-err');
 
-const auth = require('./middlewares/auth');
-const { createUser, login } = require('./controllers/user');
+/* const auth = require('./middlewares/auth');
+const { createUser, login } = require('./controllers/user'); */
 
 const api = require('./routes');
 
@@ -43,18 +43,17 @@ app.set('trust proxy', 1);
 
 app.use(limiter);
 
-/* const allowedCors = [
+const allowedCors = [
   'http://movies.kst.nomoredomains.monster/',
   'https://movies.kst.nomoredomains.monster/',
   'http://localhost:3000/',
-]; */
+];
 
 app.use((req, res, next) => {
-  /*  const { origin } = req.headers; */
-  res.header('Access-Contol-Allow-Origin', '*');
-  /*   if (allowedCors.includes(origin)) {
+  const { origin } = req.headers;
+  if (allowedCors.includes(origin)) {
     res.header('Access-Contol-Allow-Origin', origin);
-  } */
+  }
 
   const { method } = req;
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
@@ -76,7 +75,7 @@ app.use(cookieParser('secret'));
 
 app.use(requestLogger); // подключаем логгер запросов
 
-app.post('/signup', celebrate({
+/* app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().email(),
@@ -91,7 +90,7 @@ app.post('/signin', celebrate({
   }),
 }), login);
 
-app.use(auth);
+app.use(auth); */
 
 app.use('/api', api);
 
