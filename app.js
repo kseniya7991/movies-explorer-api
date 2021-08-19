@@ -46,6 +46,7 @@ app.use(limiter);
 const allowedCors = [
   'http://movies.kst.nomoredomains.monster/',
   'https://movies.kst.nomoredomains.monster/',
+  'http://localhost:3000/',
 ];
 
 app.use((req, res, next) => {
