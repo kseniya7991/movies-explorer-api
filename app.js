@@ -43,7 +43,7 @@ app.set('trust proxy', 1);
 
 app.use(limiter);
 
-const allowedCors = [
+/* const allowedCors = [
   'http://movies.kst.nomoredomains.monster/',
   'https://movies.kst.nomoredomains.monster/',
   'http://localhost:3000/',
@@ -67,7 +67,7 @@ app.use((req, res, next) => {
   }
 
   next();
-});
+}); */
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
