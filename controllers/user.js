@@ -1,5 +1,5 @@
 const { JWT_SECRET, NODE_ENV } = process.env;
-const bcrypt = require('bcryptjs');
+/* const bcrypt = require('bcryptjs'); */
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
@@ -52,7 +52,8 @@ module.exports.updateUser = async (req, res, next) => {
 
 module.exports.createUser = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    return next(new ConflictError('Пользователь с таким email уже существует'));
+    /* const { name, email, password } = req.body;
     if (password) {
       const hash = await bcrypt.hash(password, 10);
       const user = await User.create({
@@ -67,7 +68,7 @@ module.exports.createUser = async (req, res, next) => {
       });
     }
 
-    return next(new BadRequest('Введены некорректные данные пользователя'));
+    return next(new BadRequest('Введены некорректные данные пользователя')); */
   } catch (err) {
     if (err.name === 'MongoError' && err.code === 11000) {
       return next(new ConflictError('Пользователь с таким email уже существует'));
